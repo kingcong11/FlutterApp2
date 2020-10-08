@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/* Widgets */
+
+/* Classes */
+import './transaction.dart';
+
 void main() {
   runApp(MyHomePage());
 }
 
 class MyHomePage extends StatelessWidget {
-
+  
+  final List<Transaction> transactions = [
+    Transaction(
+      id: '1',
+      title: 'Groceries',
+      amount: 3000,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: '2',
+      title: 'Hygiene',
+      amount: 1500,
+      date: DateTime.now()
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
