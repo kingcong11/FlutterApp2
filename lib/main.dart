@@ -70,12 +70,35 @@ class MyHomePage extends StatelessWidget {
                 children: [
                   Container(
                     child: Card(
-                      child: Text('Transactions'),
-                      elevation: 10,
-                      color: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      clipBehavior: Clip.antiAlias,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(
+                              Icons.format_list_bulleted,
+                              size: 35,
+                            ),
+                            title: Text('Transactions', style: TextStyle(fontSize: 20),),
+                          ),
+                          Divider(),
+                          Column(
+                            // direction: Axis.vertical,
+                            children: transactions.map((tx){
+                              return ListTile(
+                                leading: Icon(Icons.attach_money), 
+                                title: Text(tx.title),
+                                trailing: Text(
+                                  tx.amount.toString(),
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                );
+                            }).toList()
+                          ),
+                        ],
                       ),
+                      // color: Colors.green,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shadowColor: Colors.grey[600],
                     ),
                     width: 350,
                     height: 440,
@@ -87,35 +110,30 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
 
-        bottomNavigationBar: Stack(
-          overflow: Overflow.visible,
-          alignment: FractionalOffset(.5, 1),
-          children: [
-            BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.commentDollar),
-                  title: Text('Budget'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.solidChartBar),
-                  title: Text('Statisctics'),
-                ),
-              ], 
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            size: 40,
+          ),
+          onPressed: () => print('action button clicked'),
+          backgroundColor: Colors.amber,
+        ),
+
+        floatingActionButtonLocation: (FloatingActionButtonLocation.centerDocked),
+        
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.commentDollar),
+              title: Text('Budget'),
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: FloatingActionButton(
-                child: Icon(
-                  Icons.add,
-                  size: 40,
-                 ),
-                onPressed: () => print('I am clicked'),
-                backgroundColor: Colors.amber,
-              ),
-            )
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.solidChartBar),
+              title: Text('Statistics'),
+            ),
           ],
         ),
+
       ),
       debugShowCheckedModeBanner: false,
     );
