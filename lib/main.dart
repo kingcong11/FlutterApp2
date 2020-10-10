@@ -86,7 +86,17 @@ class MyHomePage extends StatelessWidget {
                             children: transactions.map((tx){
                               return ListTile(
                                 leading: Icon(Icons.attach_money), 
-                                title: Text(tx.title),
+                                title: Text(
+                                  tx.title,
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w700
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  tx.date.toString(),
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
                                 trailing: Text(
                                   tx.amount.toString(),
                                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
