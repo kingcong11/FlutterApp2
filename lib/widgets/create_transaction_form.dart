@@ -4,6 +4,9 @@ class CreateTransaction extends StatelessWidget {
 
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+  final Function addNewTransaction;
+
+  CreateTransaction(this.addNewTransaction);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +38,7 @@ class CreateTransaction extends StatelessWidget {
                         color: Colors.white, fontSize: 18, letterSpacing: 1),
                   ),
                   onPressed: () {
-                    print(titleController.text);
-                    print(amountController.text);
+                    addNewTransaction(titleController.text, double.parse(amountController.text));
                   },
                   color: Colors.black87,
                   shape: RoundedRectangleBorder(

@@ -11,7 +11,6 @@ void main() {
 }
 
 class MyHomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,7 +57,6 @@ class MyHomePage extends StatelessWidget {
             ],
           ),
         ),
-
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
@@ -67,9 +65,7 @@ class MyHomePage extends StatelessWidget {
           onPressed: () => print('action button clicked'),
           backgroundColor: Colors.amber,
         ),
-
-        floatingActionButtonLocation: (FloatingActionButtonLocation.centerDocked),
-        
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
@@ -82,7 +78,6 @@ class MyHomePage extends StatelessWidget {
             ),
           ],
         ),
-
       ),
       debugShowCheckedModeBanner: false,
     );
