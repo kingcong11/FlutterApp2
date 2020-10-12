@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 
 class CreateTransaction extends StatelessWidget {
-
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   final Function addNewTransaction;
 
   CreateTransaction(this.addNewTransaction);
+
+  void submitData() {
+    if (amountController.text.isNotEmpty || titleController.text.isNotEmpty) {
+      if (double.parse(amountController.text) > 0) {
+
+        final enteredTitle = titleController.text,
+            enteredAmount = double  .parse(amountController.text);
+
+        addNewTransaction(enteredTitle, enteredAmount);
+
+      } else {
+        return;
+      }
+    } else {
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +38,16 @@ class CreateTransaction extends StatelessWidget {
                   labelText: 'Title',
                   labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                 ),
+                onSubmitted: (_) => submitData(),
               ),
               TextField(
                 controller: amountController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   labelText: 'Amount',
                   labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                 ),
+                onSubmitted: (_) => submitData(),
               ),
               Container(
                 child: FlatButton(
@@ -37,9 +56,7 @@ class CreateTransaction extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white, fontSize: 18, letterSpacing: 1),
                   ),
-                  onPressed: () {
-                    addNewTransaction(titleController.text, double.parse(amountController.text));
-                  },
+                  onPressed: submitData,
                   color: Colors.black87,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -51,7 +68,7 @@ class CreateTransaction extends StatelessWidget {
           ),
           padding: EdgeInsets.all(12),
         ),
-        color: Colors.orangeAccent,
+        color: Colors.amber,
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),

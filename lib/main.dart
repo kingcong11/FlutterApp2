@@ -17,6 +17,7 @@ class MyHomePage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Personal Expense'),
+          backgroundColor: Colors.amber,
         ),
         body: Container(
           child: ListView(

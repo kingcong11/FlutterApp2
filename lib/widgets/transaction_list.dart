@@ -38,11 +38,11 @@ class TransactionList extends StatelessWidget {
                           color: Colors.black87, fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
-                      DateFormat.yMMMd().format(tx.date),
+                      DateFormat.yMMMd().format(transactions[index].date),
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     trailing: Text(
-                      '₱ ${transactions[index].amount}',
+                      '₱ ${transactions[index].amount.toStringAsFixed(2)}',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
