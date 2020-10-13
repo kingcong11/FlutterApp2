@@ -58,9 +58,9 @@ class TransactionList extends StatelessWidget {
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
-      width: 350,
+      // width: 350,
       height: 450,
-      margin: EdgeInsets.only(top: 5, bottom: 20),
+      margin: EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
     );
   }
 }
