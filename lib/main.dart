@@ -9,7 +9,18 @@ import './widgets/transaction_form.dart';
 import 'models/transaction.dart';
 
 void main() {
-  runApp(MyHomePage());
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Personal Expense',
+      home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -41,10 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
       id: '3',
     );
 
-    print("balagaboom");
-    print(txTitle);
-    print(txAmount);
-
     setState(() {
       _userTransactions.add(newTx);
     });
@@ -60,76 +67,71 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Personal Expense'),
-          backgroundColor: Colors.amber,
-        ),
-        body: Container(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      child: Text('Widget 1'),
-                      elevation: 10,
-                      color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    width: 165,
-                    height: 165,
-                    margin: EdgeInsets.only(top: 5),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Personal Expense'),
+        backgroundColor: Colors.amber,
+      ),
+      body: Container(
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: [
+            Row(
+              children: [
+                Container(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Text('Widget 1'),
+                    elevation: 10,
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                   ),
-                  Container(
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      child: Text('Widget 2'),
-                      elevation: 10,
-                      color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    width: 165,
-                    height: 165,
-                    margin: EdgeInsets.only(top: 5),
+                  width: 165,
+                  height: 165,
+                  margin: EdgeInsets.only(top: 5),
+                ),
+                Container(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Text('Widget 2'),
+                    elevation: 10,
+                    color: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                   ),
-                ],
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              ),
-              TransactionList(_userTransactions)
-            ],
-          ),
-        ),
-        floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              size: 40,
+                  width: 165,
+                  height: 165,
+                  margin: EdgeInsets.only(top: 5),
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             ),
-            onPressed: () => _showTransactionForm(context),
-            backgroundColor: Colors.amber,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.commentDollar),
-              title: Text('Budget'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.solidChartBar),
-              title: Text('Statistics'),
-            ),
+            TransactionList(_userTransactions)
           ],
         ),
       ),
-      debugShowCheckedModeBanner: false,
+      floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            size: 40,
+          ),
+          onPressed: () => _showTransactionForm(context),
+          backgroundColor: Colors.amber,
+        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.commentDollar),
+            title: Text('Budget'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.solidChartBar),
+            title: Text('Statistics'),
+          ),
+        ],
+      ),
     );
   }
 }
