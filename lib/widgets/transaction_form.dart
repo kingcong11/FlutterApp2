@@ -66,7 +66,7 @@ class _TransactionFormState extends State<TransactionForm> {
                         color: Colors.white, fontSize: 18, letterSpacing: 1),
                   ),
                   onPressed: submitData,
-                  color: Colors.black87,
+                  color: Color(0xFFb64fc8),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                 ),
@@ -77,12 +77,11 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           padding: EdgeInsets.all(12),
         ),
-        color: Colors.amber,
+        // color: Colors.amber,
         elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        margin: EdgeInsets.all(0),
       ),
-      width: 350,
-      margin: EdgeInsets.only(top: 5),
     );
   }
 }

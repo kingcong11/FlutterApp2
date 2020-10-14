@@ -18,6 +18,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expense',
       home: MyHomePage(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.purple,
+        accentColor: Color(0xFFb64fc8),
+        iconTheme: IconThemeData(color: Color(0xFFea80fc)),
+        fontFamily: 'Product',
+        textTheme: ThemeData.dark().textTheme.copyWith(
+          headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
+          headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
+          headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
+          headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
+          headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
+          headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
+        ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.dark().textTheme.copyWith(
+            headline6: TextStyle(fontSize: 24), // 'title' property is replaced by 'headline6'
+          ),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -62,15 +82,19 @@ class _MyHomePageState extends State<MyHomePage> {
         context: ctx,
         builder: (_) {
           return TransactionForm(_addNewTransaction);
-        });
+        },
+        backgroundColor: Colors.transparent);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Personal Expense'),
-        backgroundColor: Colors.amber,
+        leading: Icon(
+          Icons.strikethrough_s,
+          size: 35,
+        ),
+        title: Text('ExpenSave'),
       ),
       body: Container(
         child: ListView(
@@ -81,9 +105,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   child: Card(
                     clipBehavior: Clip.antiAlias,
-                    child: Text('Widget 1'),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 100,
+                        color: Colors.white,
+                      ),
+                    ),
                     elevation: 10,
-                    color: Colors.redAccent,
+                    // color: Colors.redAccent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
@@ -94,9 +124,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   child: Card(
                     clipBehavior: Clip.antiAlias,
-                    child: Text('Widget 2'),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 100,
+                        color: Colors.white,
+                      ),
+                    ),
                     elevation: 10,
-                    color: Colors.redAccent,
+                    // color: Colors.redAccent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
@@ -112,13 +148,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 40,
-          ),
-          onPressed: () => _showTransactionForm(context),
-          backgroundColor: Colors.amber,
+        child: Icon(
+          Icons.add,
+          size: 40,
         ),
+        onPressed: () => _showTransactionForm(context),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         items: [

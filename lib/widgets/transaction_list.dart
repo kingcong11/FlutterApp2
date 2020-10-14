@@ -22,7 +22,7 @@ class TransactionList extends StatelessWidget {
               ),
               title: Text(
                 'Transactions',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 22),
               ),
             ),
             Divider(),
@@ -34,15 +34,16 @@ class TransactionList extends StatelessWidget {
                     leading: Icon(Icons.attach_money),
                     title: Text(
                       transactions[index].title,
-                      style: TextStyle(
-                          color: Colors.black87, fontWeight: FontWeight.w700),
+                      style: Theme.of(context).textTheme.headline3.copyWith(
+                        // copyWith() overrides the existing themeData of BuildContext
+                      ),
                     ),
                     subtitle: Text(
                       DateFormat.yMMMd().format(transactions[index].date),
-                      style: TextStyle(color: Colors.grey[700]),
+                      style: TextStyle(color: Color(0xFF9a9a9a)),
                     ),
                     trailing: Text(
-                      '₱ ${transactions[index].amount.toStringAsFixed(2)}',
+                      '\$ ${transactions[index].amount.toStringAsFixed(2)}',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
@@ -60,7 +61,7 @@ class TransactionList extends StatelessWidget {
       ),
       // width: 350,
       height: 450,
-      margin: EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
+      margin: EdgeInsets.only(top: 5, bottom: 20, left: 10, right: 10),
     );
   }
 }

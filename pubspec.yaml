@@ -76,3 +76,17 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Product
+      fonts:
+        - asset: assets/fonts/Product/Product-Sans-Regular.ttf
+        - asset: assets/fonts/Product/Product-Sans-Bold.ttf
+          weight: 700
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/Quicksand/Quicksand-Regular.otf
+        - asset: assets/fonts/Quicksand/Quicksand-Bold.otf
+          weight: 700    
+        - asset: assets/fonts/Quicksand/Quicksand-Light.otf
+          weight: 300
+
