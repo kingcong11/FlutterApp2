@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 /* Widgets */
 import './widgets/transaction_list.dart';
 import './widgets/transaction_form.dart';
+import './widgets/middle_ring.dart';
 
 /* Models */
 import 'models/transaction.dart';
@@ -25,17 +26,19 @@ class MyApp extends StatelessWidget {
         iconTheme: IconThemeData(color: Color(0xFFea80fc)),
         fontFamily: 'Product',
         textTheme: ThemeData.dark().textTheme.copyWith(
-          headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
-          headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
-          headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
-          headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
-          headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
-          headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
-        ),
+              headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
+              headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
+              headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
+              headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
+              headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
+              headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.dark().textTheme.copyWith(
-            headline6: TextStyle(fontSize: 24), // 'title' property is replaced by 'headline6'
-          ),
+                headline6: TextStyle(
+                    fontSize:
+                        24), // 'title' property is replaced by 'headline6'
+              ),
         ),
       ),
       debugShowCheckedModeBanner: false,
@@ -102,47 +105,60 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Row(
               children: [
-                Container(
-                  child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Center(
-                      child: Icon(
-                        Icons.add,
-                        size: 100,
-                        color: Colors.white,
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Center(
+                        child: Icon(
+                          Icons.add,
+                          size: 100,
+                          color: Colors.white,
+                        ),
                       ),
+                      elevation: 10,
+                      // color: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                     ),
-                    elevation: 10,
-                    // color: Colors.redAccent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    // width: 165,
+                    height: 165,
+                    margin: EdgeInsets.only(top: 5, left: 10),
                   ),
-                  width: 165,
-                  height: 165,
-                  margin: EdgeInsets.only(top: 5),
                 ),
-                Container(
-                  child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Center(
-                      child: Icon(
-                        Icons.add,
-                        size: 100,
-                        color: Colors.white,
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Center(
+                        child: Container(
+                          //outer ring
+                          height: 140,
+                          width: 140,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white70,
+                          ),
+                          child: MiddleRing(),
+                        ),
                       ),
+                      elevation: 10,
+                      // color: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
                     ),
-                    elevation: 10,
-                    // color: Colors.redAccent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    // width: 165,
+                    height: 165,
+                    margin: EdgeInsets.only(top: 5, right: 10),
                   ),
-                  width: 165,
-                  height: 165,
-                  margin: EdgeInsets.only(top: 5),
                 ),
               ],
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+            Flexible(
+              child: Placeholder(fallbackHeight: 100,),
             ),
             TransactionList(_userTransactions)
           ],
@@ -155,19 +171,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         onPressed: () => _showTransactionForm(context),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.commentDollar),
-            title: Text('Budget'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.solidChartBar),
-            title: Text('Statistics'),
-          ),
-        ],
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(FontAwesomeIcons.commentDollar),
+      //       title: Text('Budget'),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(FontAwesomeIcons.solidChartBar),
+      //       title: Text('Statistics'),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
