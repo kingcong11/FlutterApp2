@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './widgets/transaction_list.dart';
 import './widgets/transaction_form.dart';
 import './widgets/middle_ring.dart';
+import './widgets/chart.dart';
 
 /* Models */
 import 'models/transaction.dart';
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.purple,
-        accentColor: Color(0xFFb64fc8),
-        iconTheme: IconThemeData(color: Color(0xFFea80fc)),
+        primarySwatch: Colors.amber,
+        accentColor: Colors.deepOrangeAccent,
+        iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
         fontFamily: 'Product',
         textTheme: ThemeData.dark().textTheme.copyWith(
               headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
@@ -40,6 +41,11 @@ class MyApp extends StatelessWidget {
                         24), // 'title' property is replaced by 'headline6'
               ),
         ),
+        cardTheme: ThemeData.dark().cardTheme.copyWith(
+              elevation: 6,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18)),
+            ),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -53,18 +59,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: '1',
-    //   title: 'Groceries',
-    //   amount: 3000,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: '2',
-    //   title: 'Hygiene',
-    //   amount: 1500,
-    //   date: DateTime.now(),
-    // ),
+    Transaction(
+      id: '1',
+      title: 'Groceries',
+      amount: 3000,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: '2',
+      title: 'Hygiene',
+      amount: 1500,
+      date: DateTime.now(),
+    ),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -82,11 +88,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showTransactionForm(BuildContext ctx) {
     showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return TransactionForm(_addNewTransaction);
-        },
-        backgroundColor: Colors.transparent);
+      context: ctx,
+      builder: (_) {
+        return TransactionForm(_addNewTransaction);
+      },
+      backgroundColor: Colors.transparent,
+    );
+  }
+
+  /* Getters */
+
+  List<Transaction> get _thisWeekTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
   }
 
   @override
@@ -103,64 +118,57 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      child: Center(
-                        child: Icon(
-                          Icons.add,
-                          size: 100,
-                          color: Colors.white,
-                        ),
-                      ),
-                      elevation: 10,
-                      // color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    // width: 165,
-                    height: 165,
-                    margin: EdgeInsets.only(top: 5, left: 10),
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      child: Center(
-                        child: Container(
-                          //outer ring
-                          height: 140,
-                          width: 140,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white70,
-                          ),
-                          child: MiddleRing(),
-                        ),
-                      ),
-                      elevation: 10,
-                      // color: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    // width: 165,
-                    height: 165,
-                    margin: EdgeInsets.only(top: 5, right: 10),
-                  ),
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            ),
-            Flexible(
-              child: Placeholder(fallbackHeight: 100,),
-            ),
-            TransactionList(_userTransactions)
+            // Row(
+            //   children: [
+            //     Flexible(
+            //       child: Container(
+            //         child: Card(
+            //           clipBehavior: Clip.antiAlias,
+            //           child: Center(
+            //             child: Icon(
+            //               Icons.add,
+            //               size: 100,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //           elevation: Theme.of(context).cardTheme.elevation,
+            //           // color: Colors.redAccent,
+            //           shape: Theme.of(context).cardTheme.shape,
+            //         ),
+            //         height: 165,
+            //         margin: EdgeInsets.only(top: 5, left: 10),
+            //       ),
+            //     ),
+            //     Flexible(
+            //       // flex: 1,
+            //       child: Container(
+            //         child: Card(
+            //           clipBehavior: Clip.antiAlias,
+            //           child: Center(
+            //             child: Container(
+            //               //outer ring
+            //               height: 140,
+            //               width: 140,
+            //               decoration: BoxDecoration(
+            //                 shape: BoxShape.circle,
+            //                 color: Colors.white70,
+            //               ),
+            //               child: MiddleRing(),
+            //             ),
+            //           ),
+            //           elevation: Theme.of(context).cardTheme.elevation,
+            //           shape: Theme.of(context).cardTheme.shape,
+            //         ),
+            //         // width: 165,
+            //         height: 165,
+            //         margin: EdgeInsets.only(top: 5, right: 10),
+            //       ),
+            //     ),
+            //   ],
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // ),
+            MyChart(_thisWeekTransactions),
+            TransactionList(_userTransactions),
           ],
         ),
       ),
