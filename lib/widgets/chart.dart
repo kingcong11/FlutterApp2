@@ -68,8 +68,6 @@ class MyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print(groupedTransactionValues);
-
     return Container(
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -118,20 +116,20 @@ class MyChart extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 3),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.date_range,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 3),
+            //   child: Align(
+            //     alignment: Alignment.topRight,
+            //     child: IconButton(
+            //       icon: Icon(
+            //         Icons.date_range,
+            //         size: 35,
+            //         color: Colors.white,
+            //       ),
+            //       onPressed: () {},
+            //     ),
+            //   ),
+            // ),
           ],
           overflow: Overflow.clip,
         ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /* Widgets */
 import './widgets/transaction_list.dart';
 import './widgets/transaction_form.dart';
-import './widgets/middle_ring.dart';
 import './widgets/chart.dart';
 
 /* Models */
@@ -21,31 +19,38 @@ class MyApp extends StatelessWidget {
       title: 'Personal Expense',
       home: MyHomePage(),
       theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.amber,
+        brightness: Brightness.light,
+        primarySwatch: Colors.orange,
         accentColor: Colors.deepOrangeAccent,
         iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
         fontFamily: 'Product',
-        textTheme: ThemeData.dark().textTheme.copyWith(
-              headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
-              headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
-              headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
-              headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
-              headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
-              headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
-            ),
+        
+        textTheme: ThemeData.light().textTheme.copyWith(
+          headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
+          headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
+          headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
+          headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
+          headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
+          headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
+          subtitle1: TextStyle(fontFamily: 'Product'),
+          button: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Product',
+          ),
+
+        ),
         appBarTheme: AppBarTheme(
-          textTheme: ThemeData.dark().textTheme.copyWith(
+          textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                     fontSize:
                         24), // 'title' property is replaced by 'headline6'
               ),
         ),
-        cardTheme: ThemeData.dark().cardTheme.copyWith(
-              elevation: 6,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18)),
-            ),
+        cardTheme: ThemeData.light().cardTheme.copyWith(
+          elevation: 6,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18)),
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -59,26 +64,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: '1',
-      title: 'Groceries',
-      amount: 3000,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: '2',
-      title: 'Hygiene',
-      amount: 1500,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: '1',
+    //   title: 'Groceries',
+    //   amount: 3000,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: '2',
+    //   title: 'Hygiene',
+    //   amount: 1500,
+    //   date: DateTime.now(),
+    // )
   ];
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(String txTitle, double txAmount, DateTime txDate, Key key) {
     final newTx = Transaction(
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
-      id: '3',
+      date: txDate,
+      id: key.toString(),
     );
 
     setState(() {
@@ -96,6 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _deleteTransaction(String txID) {
+    // print('I am triggered');
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == txID);
+    });
+  }
   /* Getters */
 
   List<Transaction> get _thisWeekTransactions {
@@ -113,62 +124,21 @@ class _MyHomePageState extends State<MyHomePage> {
           size: 35,
         ),
         title: Text('ExpenSave'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.play_arrow),
+            onPressed: (){
+              _userTransactions.forEach((element) => print(element.title));
+            },
+          )
+        ],
       ),
       body: Container(
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            // Row(
-            //   children: [
-            //     Flexible(
-            //       child: Container(
-            //         child: Card(
-            //           clipBehavior: Clip.antiAlias,
-            //           child: Center(
-            //             child: Icon(
-            //               Icons.add,
-            //               size: 100,
-            //               color: Colors.white,
-            //             ),
-            //           ),
-            //           elevation: Theme.of(context).cardTheme.elevation,
-            //           // color: Colors.redAccent,
-            //           shape: Theme.of(context).cardTheme.shape,
-            //         ),
-            //         height: 165,
-            //         margin: EdgeInsets.only(top: 5, left: 10),
-            //       ),
-            //     ),
-            //     Flexible(
-            //       // flex: 1,
-            //       child: Container(
-            //         child: Card(
-            //           clipBehavior: Clip.antiAlias,
-            //           child: Center(
-            //             child: Container(
-            //               //outer ring
-            //               height: 140,
-            //               width: 140,
-            //               decoration: BoxDecoration(
-            //                 shape: BoxShape.circle,
-            //                 color: Colors.white70,
-            //               ),
-            //               child: MiddleRing(),
-            //             ),
-            //           ),
-            //           elevation: Theme.of(context).cardTheme.elevation,
-            //           shape: Theme.of(context).cardTheme.shape,
-            //         ),
-            //         // width: 165,
-            //         height: 165,
-            //         margin: EdgeInsets.only(top: 5, right: 10),
-            //       ),
-            //     ),
-            //   ],
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // ),
             MyChart(_thisWeekTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
