@@ -132,7 +132,6 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           padding: EdgeInsets.all(12),
         ),
-        // color: Colors.amber,
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

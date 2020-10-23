@@ -24,7 +24,6 @@ class ChartBar extends StatelessWidget {
         Container(
           height: 80,
           width: 18,
-          // color: Colors.green,
           child: Stack(
             children: [
               Container(
@@ -37,13 +36,16 @@ class ChartBar extends StatelessWidget {
                     ),
                     color: Color.fromRGBO(255, 255, 255, 1)),
               ),
-              FractionallySizedBox(
-                heightFactor: spendingPctgOfTotal,
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.circular(20),
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: FractionallySizedBox(
+                  heightFactor: spendingPctgOfTotal,
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                 ),
               ),

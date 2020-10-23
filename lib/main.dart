@@ -63,20 +63,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: '1',
-    //   title: 'Groceries',
-    //   amount: 3000,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: '2',
-    //   title: 'Hygiene',
-    //   amount: 1500,
-    //   date: DateTime.now(),
-    // )
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(String txTitle, double txAmount, DateTime txDate, Key key) {
     final newTx = Transaction(
@@ -102,7 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _deleteTransaction(String txID) {
-    // print('I am triggered');
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == txID);
     });
@@ -124,14 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
           size: 35,
         ),
         title: Text('ExpenSave'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.play_arrow),
-            onPressed: (){
-              _userTransactions.forEach((element) => print(element.title));
-            },
-          )
-        ],
       ),
       body: Container(
         child: ListView(
@@ -150,18 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => _showTransactionForm(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(FontAwesomeIcons.commentDollar),
-      //       title: Text('Budget'),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(FontAwesomeIcons.solidChartBar),
-      //       title: Text('Statistics'),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

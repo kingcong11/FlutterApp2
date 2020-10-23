@@ -34,7 +34,6 @@ class TransactionList extends StatelessWidget {
                       itemBuilder: (ctx, index) {
                         return Dismissible(
                           child: ListTile(
-                            // leading: Icon(Icons.attach_money),
                             leading: CircleAvatar(
                               backgroundColor: Theme.of(context).primaryColor,
                               child: Icon(

@@ -116,27 +116,12 @@ class MyChart extends StatelessWidget {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.only(right: 3),
-            //   child: Align(
-            //     alignment: Alignment.topRight,
-            //     child: IconButton(
-            //       icon: Icon(
-            //         Icons.date_range,
-            //         size: 35,
-            //         color: Colors.white,
-            //       ),
-            //       onPressed: () {},
-            //     ),
-            //   ),
-            // ),
           ],
           overflow: Overflow.clip,
         ),
       ),
       height: 200,
       margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-      // color: Colors.red, //remove later
     );
   }
 }
