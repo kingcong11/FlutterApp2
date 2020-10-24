@@ -9,6 +9,10 @@ import './widgets/chart.dart';
 import 'models/transaction.dart';
 
 void main() {
+  /* locking the app to only available in portrait mode; import serices package if you want to apply this setting */
+  // WidgetsFlutterBinding();
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(MyApp());
 }
 
@@ -24,33 +28,33 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.deepOrangeAccent,
         iconTheme: IconThemeData(color: Colors.deepOrangeAccent),
         fontFamily: 'Product',
-        
         textTheme: ThemeData.light().textTheme.copyWith(
-          headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
-          headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
-          headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
-          headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
-          headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
-          headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
-          subtitle1: TextStyle(fontFamily: 'Product'),
-          button: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Product',
-          ),
-
-        ),
+              headline1: TextStyle(fontFamily: 'Quicksand', fontSize: 32),
+              headline2: TextStyle(fontFamily: 'Quicksand', fontSize: 24),
+              headline3: TextStyle(fontFamily: 'Quicksand', fontSize: 18.72),
+              headline4: TextStyle(fontFamily: 'Quicksand', fontSize: 16),
+              headline5: TextStyle(fontFamily: 'Quicksand', fontSize: 13.28),
+              headline6: TextStyle(fontFamily: 'Quicksand', fontSize: 10.72),
+              subtitle1: TextStyle(fontFamily: 'Product'),
+              button: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Product',
+              ),
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
-                    fontSize:
-                        24), // 'title' property is replaced by 'headline6'
+                  fontSize: 24,
+                ), // 'title' property is replaced by 'headline6'
               ),
         ),
         cardTheme: ThemeData.light().cardTheme.copyWith(
-          elevation: 6,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18)),
-        ),
+              elevation: 6,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            ),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -63,8 +67,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  bool _showChart = false;
   final List<Transaction> _userTransactions = [];
 
+  /* Methods */
   void _addNewTransaction(String txTitle, double txAmount, DateTime txDate, Key key) {
     final newTx = Transaction(
       title: txTitle,
@@ -94,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   /* Getters */
-
   List<Transaction> get _thisWeekTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
@@ -103,20 +109,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(
-          Icons.strikethrough_s,
-          size: 35,
-        ),
-        title: Text('ExpenSave'),
+
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final appbar = AppBar(
+      leading: Icon(
+        Icons.strikethrough_s,
+        size: 35,
       ),
-      body: Container(
-        child: ListView(
-          scrollDirection: Axis.vertical,
+      title: Text('ExpenSave'),
+    );
+
+    return Scaffold(
+      appBar: appbar,
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            MyChart(_thisWeekTransactions),
-            TransactionList(_userTransactions, _deleteTransaction),
+            /* landscape Mode View */
+            if(isLandscape)
+              Container(
+                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * .7),
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+                child: MyChart(_thisWeekTransactions),
+              ),
+            if(isLandscape)
+              Container(
+                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * 1.1),
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+                child: TransactionList(_userTransactions, _deleteTransaction),
+              ),
+
+
+            /* Portrait Mode View */
+            if(!isLandscape)
+              Container(
+                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * .3),
+                margin: Theme.of(context).cardTheme.margin,
+                child: MyChart(_thisWeekTransactions),
+              ),
+            if(!isLandscape)
+              Container(
+                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * .67),
+                margin: Theme.of(context).cardTheme.margin,
+                child: TransactionList(_userTransactions, _deleteTransaction),
+              ),
           ],
         ),
       ),
