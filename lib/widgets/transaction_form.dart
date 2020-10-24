@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final Function addNewTransaction;
+  final double dynamicBottomPadding;
 
-  TransactionForm(this.addNewTransaction);
+  TransactionForm(this.addNewTransaction, this.dynamicBottomPadding);
 
   @override
   _TransactionFormState createState() => _TransactionFormState();
@@ -54,93 +55,91 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Container(
-          child: Column(
-            children: [
-              TextField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  labelStyle: Theme.of(context).textTheme.subtitle1,
-                ),
-                onSubmitted: (_) => _submitData(),
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Container(
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                labelText: 'Title',
+                labelStyle: Theme.of(context).textTheme.subtitle1,
               ),
-              TextField(
-                controller: _amountController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                  labelStyle: Theme.of(context).textTheme.subtitle1,
-                ),
-                onSubmitted: (_) => _submitData(),
+              onSubmitted: (_) => _submitData(),
+            ),
+            TextField(
+              controller: _amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                labelText: 'Amount',
+                labelStyle: Theme.of(context).textTheme.subtitle1,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        (_selectedDate == null)
-                            ? 'No Chosen Date'
-                            : DateFormat.yMMMMd().format(_selectedDate),
-                        style: TextStyle(fontSize: 18),
-                      ),
+              onSubmitted: (_) => _submitData(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      (_selectedDate == null)
+                          ? 'No Chosen Date'
+                          : DateFormat.yMMMMd().format(_selectedDate),
+                      style: TextStyle(fontSize: 18),
                     ),
-                    FlatButton(
-                      textColor: Theme.of(context).accentColor,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: .3,
-                            fontSize: 16),
-                      ),
-                      onPressed: _showDatePicker,
-                    )
-                  ],
-                ),
+                  ),
+                  FlatButton(
+                    textColor: Theme.of(context).accentColor,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: .3,
+                          fontSize: 16),
+                    ),
+                    onPressed: _showDatePicker,
+                  )
+                ],
               ),
-              Flexible(
-                fit: FlexFit.tight,
-                child: Container(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        child: Text(
-                          'Create',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: _submitData,
-                        color: Theme.of(context).accentColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              child: Container(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: widget.dynamicBottomPadding),
+                    width: double.infinity,
+                    child: RaisedButton(
+                      child: Text(
+                        'Create',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold),
                       ),
+                      onPressed: _submitData,
+                      color: Theme.of(context).accentColor,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          padding: EdgeInsets.all(12),
+            ),
+          ],
         ),
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-        ),
-        margin: EdgeInsets.all(0),
+        padding: EdgeInsets.all(12),
       ),
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+      ),
+      margin: EdgeInsets.all(0),
     );
   }
 }

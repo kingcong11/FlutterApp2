@@ -68,7 +68,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  bool _showChart = false;
   final List<Transaction> _userTransactions = [];
 
   /* Methods */
@@ -88,10 +87,14 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showTransactionForm(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
-      builder: (_) {
-        return TransactionForm(_addNewTransaction);
-      },
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      builder: (_) {
+        return Container(
+          height: (MediaQuery.of(context).size.height * .5) + MediaQuery.of(context).viewInsets.bottom,
+          child: TransactionForm(_addNewTransaction, MediaQuery.of(context).viewInsets.bottom),
+        );
+      },   
     );
   }
 
