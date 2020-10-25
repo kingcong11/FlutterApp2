@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 /* Widgets */
@@ -85,14 +87,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showTransactionForm(BuildContext ctx) {
+    
     showModalBottomSheet(
       context: ctx,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) {
+
+        var _mediaQuery = MediaQuery.of(context);
         return Container(
-          height: (MediaQuery.of(context).size.height * .5) + MediaQuery.of(context).viewInsets.bottom,
-          child: TransactionForm(_addNewTransaction, MediaQuery.of(context).viewInsets.bottom),
+          height: (_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
+          child: TransactionForm(_addNewTransaction, _mediaQuery.viewInsets.bottom),
         );
       },   
     );
@@ -113,13 +118,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final _mediaQuery = MediaQuery.of(context);
+    final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
     final appbar = AppBar(
       leading: Icon(
         Icons.strikethrough_s,
         size: 35,
       ),
       title: Text('ExpenSave'),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.add,
+            size: 35,
+          ),
+          onPressed: () => _showTransactionForm(context),
+        )
+      ],
     );
 
     return Scaffold(
@@ -128,43 +143,43 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             /* landscape Mode View */
-            if(isLandscape)
+            if(_isLandscape)
               Container(
-                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * .7),
+                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .7),
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
                 child: MyChart(_thisWeekTransactions),
               ),
-            if(isLandscape)
+            if(_isLandscape)
               Container(
-                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * 1.1),
+                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * 1.1),
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
                 child: TransactionList(_userTransactions, _deleteTransaction),
               ),
 
 
             /* Portrait Mode View */
-            if(!isLandscape)
+            if(!_isLandscape)
               Container(
-                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * .3),
+                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .3),
                 margin: Theme.of(context).cardTheme.margin,
                 child: MyChart(_thisWeekTransactions),
               ),
-            if(!isLandscape)
+            if(!_isLandscape)
               Container(
-                height: ((MediaQuery.of(context).size.height - (appbar.preferredSize.height + MediaQuery.of(context).padding.top)) * .67),
+                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .67),
                 margin: Theme.of(context).cardTheme.margin,
                 child: TransactionList(_userTransactions, _deleteTransaction),
               ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (Platform.isAndroid) ? FloatingActionButton(
         child: Icon(
           Icons.add,
           size: 40,
         ),
         onPressed: () => _showTransactionForm(context),
-      ),
+      ) : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
