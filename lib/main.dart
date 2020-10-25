@@ -72,8 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
 
   /* Methods */
-  void _addNewTransaction(
-      String txTitle, double txAmount, DateTime txDate, Key key) {
+  void _addNewTransaction (String txTitle, double txAmount, DateTime txDate, Key key) {
     final newTx = Transaction(
       title: txTitle,
       amount: txAmount,
@@ -94,10 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (_) {
         var _mediaQuery = MediaQuery.of(context);
         return Container(
-          height:
-              (_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
-          child: TransactionForm(
-              _addNewTransaction, _mediaQuery.viewInsets.bottom),
+          height:(_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
+          child: TransactionForm(_addNewTransaction, _mediaQuery.viewInsets.bottom),
         );
       },
     );
@@ -121,14 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
     final _mediaQuery = MediaQuery.of(context);
     final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
     final appbar = AppBar(
-      leading: Icon(
+      leading: const Icon(
         Icons.strikethrough_s,
         size: 35,
       ),
-      title: Text('ExpenSave'),
+      title: const Text('ExpenSave'),
       actions: [
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.add,
             size: 35,
           ),

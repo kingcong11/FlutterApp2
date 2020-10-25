@@ -15,7 +15,7 @@ class TransactionList extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          ListTile(
+          const ListTile(
             leading: Icon(
               Icons.format_list_bulleted,
               size: 35,
@@ -25,7 +25,7 @@ class TransactionList extends StatelessWidget {
               style: TextStyle(fontSize: 22),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: Container(
               child: (transactions.isNotEmpty)
@@ -36,7 +36,7 @@ class TransactionList extends StatelessWidget {
                           child: ListTile(
                             leading: CircleAvatar(
                               backgroundColor: Theme.of(context).primaryColor,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.attach_money,
                                 color: Colors.white,
                               ),
@@ -48,15 +48,14 @@ class TransactionList extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
-                              DateFormat.yMMMd()
-                                  .format(transactions[index].date),
-                              style: TextStyle(color: Color(0xFF9a9a9a)),
+                              DateFormat.yMMMd().format(transactions[index].date),
+                              style: const TextStyle(color: Color(0xFF9a9a9a)),
                             ),
                             trailing: Container(
                               width: 120,
                               child: Text(
                                 '\$${transactions[index].amount.toStringAsFixed(2)}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -66,11 +65,11 @@ class TransactionList extends StatelessWidget {
                           ),
                           background: Container(
                             color: Colors.redAccent,
-                            child: Padding(
+                            child: const Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.close,
                                   color: Colors.white,
                                   size: 30,
@@ -80,11 +79,11 @@ class TransactionList extends StatelessWidget {
                           ),
                           secondaryBackground: Container(
                             color: Colors.redAccent,
-                            child: Padding(
+                            child: const Padding(
                               padding: const EdgeInsets.only(right: 15),
                               child: Align(
                                 alignment: Alignment.centerRight,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.close,
                                   color: Colors.white,
                                   size: 30,
@@ -104,7 +103,7 @@ class TransactionList extends StatelessWidget {
                               ),
                               backgroundColor: Colors.redAccent,
                               duration: Duration(milliseconds: 2300),
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20),
@@ -121,10 +120,7 @@ class TransactionList extends StatelessWidget {
                         children: [
                           Text(
                             'It feels empty here, let\'s create your first transaction.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline2
-                                .copyWith(fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w500),
                             textAlign: TextAlign.left,
                           ),
                           Expanded(

@@ -17,9 +17,7 @@ class _TransactionFormState extends State<TransactionForm> {
   DateTime _selectedDate;
 
   void _submitData() {
-    if (_amountController.text.isNotEmpty &&
-        _titleController.text.isNotEmpty &&
-        _selectedDate != null) {
+    if (_amountController.text.isNotEmpty && _titleController.text.isNotEmpty && _selectedDate != null) {
       if (double.parse(_amountController.text) > 0) {
         final enteredTitle = _titleController.text;
         final enteredAmount = double.parse(_amountController.text);
@@ -78,25 +76,24 @@ class _TransactionFormState extends State<TransactionForm> {
               onSubmitted: (_) => _submitData(),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
-                      (_selectedDate == null)
-                          ? 'No Chosen Date'
-                          : DateFormat.yMMMMd().format(_selectedDate),
-                      style: TextStyle(fontSize: 18),
+                      (_selectedDate == null) ? 'No Chosen Date' : DateFormat.yMMMMd().format(_selectedDate),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                   FlatButton(
                     textColor: Theme.of(context).accentColor,
-                    child: Text(
+                    child: const Text(
                       'Choose Date',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           letterSpacing: .3,
-                          fontSize: 16),
+                          fontSize: 16,
+                      ),
                     ),
                     onPressed: _showDatePicker,
                   )
@@ -130,16 +127,16 @@ class _TransactionFormState extends State<TransactionForm> {
             ),
           ],
         ),
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
       ),
       elevation: 5,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(25),
           topRight: Radius.circular(25),
         ),
       ),
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
     );
   }
 }
