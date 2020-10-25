@@ -69,11 +69,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final List<Transaction> _userTransactions = [];
 
   /* Methods */
-  void _addNewTransaction(String txTitle, double txAmount, DateTime txDate, Key key) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime txDate, Key key) {
     final newTx = Transaction(
       title: txTitle,
       amount: txAmount,
@@ -87,19 +87,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showTransactionForm(BuildContext ctx) {
-    
     showModalBottomSheet(
       context: ctx,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) {
-
         var _mediaQuery = MediaQuery.of(context);
         return Container(
-          height: (_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
-          child: TransactionForm(_addNewTransaction, _mediaQuery.viewInsets.bottom),
+          height:
+              (_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
+          child: TransactionForm(
+              _addNewTransaction, _mediaQuery.viewInsets.bottom),
         );
-      },   
+      },
     );
   }
 
@@ -108,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _userTransactions.removeWhere((tx) => tx.id == txID);
     });
   }
+
   /* Getters */
   List<Transaction> get _thisWeekTransactions {
     return _userTransactions.where((tx) {
@@ -117,7 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final _mediaQuery = MediaQuery.of(context);
     final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
     final appbar = AppBar(
@@ -139,47 +139,50 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: appbar,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            /* landscape Mode View */
-            if(_isLandscape)
-              Container(
-                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .7),
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
-                child: MyChart(_thisWeekTransactions),
-              ),
-            if(_isLandscape)
-              Container(
-                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * 1.1),
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
-                child: TransactionList(_userTransactions, _deleteTransaction),
-              ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              /* landscape Mode View */
+              if (_isLandscape)
+                Container(
+                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .7),
+                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+                  child: MyChart(_thisWeekTransactions),
+                ),
+              if (_isLandscape)
+                Container(
+                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * 1.1),
+                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+                  child: TransactionList(_userTransactions, _deleteTransaction),
+                ),
 
-
-            /* Portrait Mode View */
-            if(!_isLandscape)
-              Container(
-                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .3),
-                margin: Theme.of(context).cardTheme.margin,
-                child: MyChart(_thisWeekTransactions),
-              ),
-            if(!_isLandscape)
-              Container(
-                height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .67),
-                margin: Theme.of(context).cardTheme.margin,
-                child: TransactionList(_userTransactions, _deleteTransaction),
-              ),
-          ],
+              /* Portrait Mode View */
+              if (!_isLandscape)
+                Container(
+                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .3),
+                  margin: Theme.of(context).cardTheme.margin,
+                  child: MyChart(_thisWeekTransactions),
+                ),
+              if (!_isLandscape)
+                Container(
+                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .67),
+                  margin: Theme.of(context).cardTheme.margin,
+                  child: TransactionList(_userTransactions, _deleteTransaction),
+                ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: (Platform.isAndroid) ? FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          size: 40,
-        ),
-        onPressed: () => _showTransactionForm(context),
-      ) : Container(),
+      floatingActionButton: (Platform.isAndroid)
+          ? FloatingActionButton(
+              child: Icon(
+                Icons.add,
+                size: 40,
+              ),
+              onPressed: () => _showTransactionForm(context),
+            )
+          : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
