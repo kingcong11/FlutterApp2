@@ -9,33 +9,32 @@ class MyChart extends StatelessWidget {
   MyChart(this.recentTransactions);
 
   List get groupedTransactionValues {
-
     var currentDay = DateTime.now();
     var mondayOfTheWeek;
 
-      switch (DateFormat.E().format(currentDay)) {
-        case 'Mon':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 0));
-          break;
-        case 'Tue':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 1));
-          break;
-        case 'Wed':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 2));
-          break;
-        case 'Thu':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 3));
-          break;
-        case 'Fri':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 4));
-          break;
-        case 'Sat':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 5));
-          break;
-        case 'Sun':
-          mondayOfTheWeek = currentDay.subtract(Duration(days: 6));
-          break;   
-      }
+    switch (DateFormat.E().format(currentDay)) {
+      case 'Mon':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 0));
+        break;
+      case 'Tue':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 1));
+        break;
+      case 'Wed':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 2));
+        break;
+      case 'Thu':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 3));
+        break;
+      case 'Fri':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 4));
+        break;
+      case 'Sat':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 5));
+        break;
+      case 'Sun':
+        mondayOfTheWeek = currentDay.subtract(Duration(days: 6));
+        break;
+    }
 
     return List.generate(7, (index) {
       final dateIteration = mondayOfTheWeek.add(Duration(days: index));
@@ -45,9 +44,7 @@ class MyChart extends StatelessWidget {
         if (recentTransactions[i].date.day == dateIteration.day &&
             recentTransactions[i].date.month == dateIteration.month &&
             recentTransactions[i].date.year == dateIteration.year) {
-          
           totalAmount += recentTransactions[i].amount;
-
         }
       }
 
@@ -67,61 +64,55 @@ class MyChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        elevation: Theme.of(context).cardTheme.elevation,
-        shape: Theme.of(context).cardTheme.shape,
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    'This Week',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: Theme.of(context).cardTheme.elevation,
+      shape: Theme.of(context).cardTheme.shape,
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  'This Week',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(
-                    height: 3,
+                ),
+                Text(
+                  'Expenses',
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: groupedTransactionValues.map((data) {
+                      return Flexible(
+                        fit: FlexFit.tight,
+                        child: ChartBar(
+                          data['day'],
+                          data['amount'],
+                          (totalSpending == 0)
+                              ? 0.0
+                              : ((data['amount'] as double) / totalSpending),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  Text(
-                    'Expenses',
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: groupedTransactionValues.map((data) {
-                        return Flexible(
-                          fit: FlexFit.tight,
-                          child: ChartBar(
-                              data['day'],
-                              data['amount'],
-                              (totalSpending == 0) ? 0.0 : ((data['amount'] as double) / totalSpending),
-                            ),
-                        );
-                      }).toList(),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-          ],
-          overflow: Overflow.clip,
-        ),
+          ),
+        ],
+        overflow: Overflow.clip,
       ),
-      height: 200,
-      margin: EdgeInsets.only(left: 10, right: 10, top: 5),
     );
   }
 }

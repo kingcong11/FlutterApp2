@@ -12,22 +12,22 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        child: Column(
-          children: [
-            ListTile(
-              leading: Icon(
-                Icons.format_list_bulleted,
-                size: 35,
-              ),
-              title: Text(
-                'Transactions',
-                style: TextStyle(fontSize: 22),
-              ),
+    return Card(
+      child: Column(
+        children: [
+          ListTile(
+            leading: Icon(
+              Icons.format_list_bulleted,
+              size: 35,
             ),
-            Divider(),
-            Container(
+            title: Text(
+              'Transactions',
+              style: TextStyle(fontSize: 22),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: Container(
               child: (transactions.isNotEmpty)
                   ? ListView.builder(
                       itemCount: transactions.length,
@@ -94,7 +94,6 @@ class TransactionList extends StatelessWidget {
                           ),
                           key: ValueKey(transactions[index].id),
                           onDismissed: (direction) {
-
                             deleteTransaction(transactions[index].id);
 
                             Scaffold.of(context).showSnackBar(SnackBar(
@@ -128,26 +127,25 @@ class TransactionList extends StatelessWidget {
                                 .copyWith(fontWeight: FontWeight.w500),
                             textAlign: TextAlign.left,
                           ),
-                          Container(
-                            child: Image.asset(
-                              'assets/illustrations/404/Png/spaceman.png',
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.high,
+                          Expanded(
+                            child: Container(
+                              child: Image.asset(
+                                'assets/illustrations/404/Png/spaceman.png',
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              ),
                             ),
                           ),
                         ],
-                      )),
-              width: double.infinity,
-              height: 370,
-            )
-          ],
-        ),
-        clipBehavior: Clip.antiAlias,
-        elevation: Theme.of(context).cardTheme.elevation,
-        shape: Theme.of(context).cardTheme.shape,
+                      ),
+                    ),
+            ),
+          )
+        ],
       ),
-      height: 450,
-      margin: EdgeInsets.only(top: 5, bottom: 20, left: 10, right: 10),
+      clipBehavior: Clip.antiAlias,
+      elevation: Theme.of(context).cardTheme.elevation,
+      shape: Theme.of(context).cardTheme.shape,
     );
   }
 }
