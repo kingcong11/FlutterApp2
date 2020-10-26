@@ -106,7 +106,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    padding: EdgeInsets.only(bottom: widget.dynamicBottomPadding),
+                    padding: EdgeInsets.only(bottom: (widget.dynamicBottomPadding )),
                     width: double.infinity,
                     child: RaisedButton(
                       child: Text(

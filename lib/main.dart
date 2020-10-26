@@ -92,10 +92,17 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.transparent,
       builder: (_) {
         var _mediaQuery = MediaQuery.of(context);
-        return Container(
-          height:(_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
-          child: TransactionForm(_addNewTransaction, _mediaQuery.viewInsets.bottom),
-        );
+        var _isLandscape = _mediaQuery.orientation == Orientation.landscape;
+        return (!_isLandscape) ? 
+          Container(
+            height:(_mediaQuery.size.height * .5) + _mediaQuery.viewInsets.bottom,
+            child: TransactionForm(_addNewTransaction, _mediaQuery.viewInsets.bottom),
+          )
+        : 
+          Container(
+            height:(_mediaQuery.size.height * .75) + _mediaQuery.viewInsets.bottom,
+            child: TransactionForm(_addNewTransaction, (_mediaQuery.viewInsets.bottom == 0) ? 0 : (_mediaQuery.viewInsets.bottom - 10)),
+          );
       },
     );
   }
@@ -106,18 +113,39 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /* Getters */
-  List<Transaction> get _thisWeekTransactions {
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
-    }).toList();
-  }
+  /* Builders */
+  List<Widget> _portraitContentBuilder(MediaQueryData _mediaQuery, AppBar appbar) {
+     return [
+        Container(
+          height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .3),
+          margin: Theme.of(context).cardTheme.margin,
+          child: MyChart(_thisWeekTransactions),
+        ),
+        Container(
+          height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .67),
+          margin: Theme.of(context).cardTheme.margin,
+          child: TransactionList(_userTransactions, _deleteTransaction),
+        ),
+     ];
+   }
 
-  @override
-  Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context);
-    final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
-    final appbar = AppBar(
+  List<Widget> _landscapeContentBuilder(MediaQueryData _mediaQuery, AppBar appbar) {
+     return [
+        Container(
+          height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .7),
+          margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+          child: MyChart(_thisWeekTransactions),
+        ),
+        Container(
+          height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * 1.1),
+          margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+          child: TransactionList(_userTransactions, _deleteTransaction),
+        ),
+     ];
+   }
+
+  Widget _appbarBuilder() {
+     return AppBar(
       leading: const Icon(
         Icons.strikethrough_s,
         size: 35,
@@ -133,6 +161,32 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
+   }
+
+  Widget _actionButtonBuilder() {
+    return (Platform.isAndroid) ?
+      FloatingActionButton(
+        child: const Icon(
+          Icons.add,
+          size: 40,
+        ),
+        onPressed: () => _showTransactionForm(context),
+      ) 
+      : Container();
+  }
+  
+  /* Getters */
+  List<Transaction> get _thisWeekTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _mediaQuery = MediaQuery.of(context);
+    final _isLandscape = _mediaQuery.orientation == Orientation.landscape;
+    final appbar = _appbarBuilder();
 
     return Scaffold(
       appBar: appbar,
@@ -142,44 +196,16 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               /* landscape Mode View */
               if (_isLandscape)
-                Container(
-                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .7),
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
-                  child: MyChart(_thisWeekTransactions),
-                ),
-              if (_isLandscape)
-                Container(
-                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * 1.1),
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
-                  child: TransactionList(_userTransactions, _deleteTransaction),
-                ),
+                ..._landscapeContentBuilder(_mediaQuery, appbar),
 
               /* Portrait Mode View */
               if (!_isLandscape)
-                Container(
-                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .3),
-                  margin: Theme.of(context).cardTheme.margin,
-                  child: MyChart(_thisWeekTransactions),
-                ),
-              if (!_isLandscape)
-                Container(
-                  height: ((_mediaQuery.size.height - (appbar.preferredSize.height + _mediaQuery.padding.top)) * .67),
-                  margin: Theme.of(context).cardTheme.margin,
-                  child: TransactionList(_userTransactions, _deleteTransaction),
-                ),
+                ..._portraitContentBuilder(_mediaQuery, appbar),
             ],
           ),
         ),
       ),
-      floatingActionButton: (Platform.isAndroid)
-          ? FloatingActionButton(
-              child: Icon(
-                Icons.add,
-                size: 40,
-              ),
-              onPressed: () => _showTransactionForm(context),
-            )
-          : Container(),
+      floatingActionButton: _actionButtonBuilder(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
