@@ -29,11 +29,28 @@ class TransactionList extends StatelessWidget {
           Expanded(
             child: Container(
               child: (transactions.isNotEmpty)
-                  ? ListView.builder(
-                      itemCount: transactions.length,
-                      itemBuilder: (ctx, index) {
-                        return TransactionItem(transaction: transactions[index], deleteTransaction: deleteTransaction);
-                      },
+                  ? 
+                    /* flutter still doesn't resolve the bug where even you already provide a key,
+                     strange behavior still exists so I need to use listview instead of a listview buildr */
+
+                    // ListView.builder( 
+                    //   itemCount: transactions.length,
+                    //   itemBuilder: (ctx, index) {
+                    //     return TransactionItem(
+                    //       key: ValueKey(transactions[index].id), 
+                    //       transaction: transactions[index], 
+                    //       deleteTransaction: deleteTransaction,
+                    //     );
+                    //   },
+                    // )
+                    ListView(
+                      children: transactions.map((tx){
+                        return TransactionItem(
+                          key: ValueKey(tx.id),
+                          transaction: tx,
+                          deleteTransaction: deleteTransaction
+                        );
+                      }).toList(),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(20),

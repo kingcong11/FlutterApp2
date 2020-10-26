@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
 
-class TransactionItem extends StatelessWidget {
+class TransactionItem extends StatefulWidget {
   const TransactionItem({
     Key key,
     @required this.transaction,
@@ -14,30 +16,54 @@ class TransactionItem extends StatelessWidget {
   final Function deleteTransaction;
 
   @override
+  _TransactionItemState createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
+
+  Color _avatarColor;
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    const availableColors = [
+      Colors.orange,
+      Colors.blue,
+      Colors.cyan,
+      Colors.redAccent
+    ];
+
+    _avatarColor = availableColors[Random().nextInt(availableColors.length)];
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Dismissible(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: _avatarColor,
           child: const Icon(
             Icons.attach_money,
             color: Colors.white,
           ),
         ),
         title: Text(
-          transaction.title,
+          widget.transaction.title,
           style: Theme.of(context).textTheme.headline3.copyWith(
               // copyWith() overrides the existing themeData of BuildContext
               fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          DateFormat.yMMMd().format(transaction.date),
+          DateFormat.yMMMd().format(widget.transaction.date),
           style: const TextStyle(color: Color(0xFF9a9a9a)),
         ),
         trailing: Container(
           width: 120,
           child: Text(
-            '\$${transaction.amount.toStringAsFixed(2)}',
+            '\$${widget.transaction.amount.toStringAsFixed(2)}',
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -74,9 +100,10 @@ class TransactionItem extends StatelessWidget {
           ),
         ),
       ),
-      key: ValueKey(transaction.id),
+      // key: ValueKey(widget.transaction.id),
+      key: widget.key,
       onDismissed: (direction) {
-        deleteTransaction(transaction.id);
+        widget.deleteTransaction(widget.transaction.id);
 
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(
