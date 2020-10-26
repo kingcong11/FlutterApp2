@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'transaction_item.dart';
 
 /* Models */
 import '../models/transaction.dart';
@@ -15,7 +15,7 @@ class TransactionList extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          ListTile(
+          const ListTile(
             leading: Icon(
               Icons.format_list_bulleted,
               size: 35,
@@ -25,95 +25,32 @@ class TransactionList extends StatelessWidget {
               style: TextStyle(fontSize: 22),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: Container(
               child: (transactions.isNotEmpty)
-                  ? ListView.builder(
-                      itemCount: transactions.length,
-                      itemBuilder: (ctx, index) {
-                        return Dismissible(
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              child: Icon(
-                                Icons.attach_money,
-                                color: Colors.white,
-                              ),
-                            ),
-                            title: Text(
-                              transactions[index].title,
-                              style: Theme.of(context).textTheme.headline3.copyWith(
-                                  // copyWith() overrides the existing themeData of BuildContext
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              DateFormat.yMMMd()
-                                  .format(transactions[index].date),
-                              style: TextStyle(color: Color(0xFF9a9a9a)),
-                            ),
-                            trailing: Container(
-                              width: 120,
-                              child: Text(
-                                '\$${transactions[index].amount.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          background: Container(
-                            color: Colors.redAccent,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                          secondaryBackground: Container(
-                            color: Colors.redAccent,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                          key: ValueKey(transactions[index].id),
-                          onDismissed: (direction) {
-                            deleteTransaction(transactions[index].id);
+                  ? 
+                    /* flutter still doesn't resolve the bug where even you already provide a key,
+                     strange behavior still exists so I need to use listview instead of a listview buildr */
 
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                'Transaction Deleted.',
-                                style: TextStyle(fontSize: 19),
-                                textAlign: TextAlign.center,
-                              ),
-                              backgroundColor: Colors.redAccent,
-                              duration: Duration(milliseconds: 2300),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                            ));
-                          },
+                    // ListView.builder( 
+                    //   itemCount: transactions.length,
+                    //   itemBuilder: (ctx, index) {
+                    //     return TransactionItem(
+                    //       key: ValueKey(transactions[index].id), 
+                    //       transaction: transactions[index], 
+                    //       deleteTransaction: deleteTransaction,
+                    //     );
+                    //   },
+                    // )
+                    ListView(
+                      children: transactions.map((tx){
+                        return TransactionItem(
+                          key: ValueKey(tx.id),
+                          transaction: tx,
+                          deleteTransaction: deleteTransaction
                         );
-                      },
+                      }).toList(),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(20),
@@ -121,10 +58,7 @@ class TransactionList extends StatelessWidget {
                         children: [
                           Text(
                             'It feels empty here, let\'s create your first transaction.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline2
-                                .copyWith(fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w500),
                             textAlign: TextAlign.left,
                           ),
                           Expanded(

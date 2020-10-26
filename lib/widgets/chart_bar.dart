@@ -35,7 +35,8 @@ class ChartBar extends StatelessWidget {
                         color: Theme.of(context).accentColor,
                         width: 2.0,
                       ),
-                      color: Color.fromRGBO(255, 255, 255, 1)),
+                      color: const Color.fromRGBO(255, 255, 255, 1),
+                  ),
                 ),
                 Container(
                   alignment: Alignment.bottomCenter,

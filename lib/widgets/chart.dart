@@ -71,23 +71,23 @@ class MyChart extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(
+                const Text(
                   'This Week',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
+                const Text(
                   'Expenses',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Expanded(
@@ -99,9 +99,7 @@ class MyChart extends StatelessWidget {
                         child: ChartBar(
                           data['day'],
                           data['amount'],
-                          (totalSpending == 0)
-                              ? 0.0
-                              : ((data['amount'] as double) / totalSpending),
+                          (totalSpending == 0) ? 0.0 : ((data['amount'] as double) / totalSpending),
                         ),
                       );
                     }).toList(),
