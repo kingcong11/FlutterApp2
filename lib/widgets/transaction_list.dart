@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'transaction_item.dart';
 
 /* Models */
 import '../models/transaction.dart';
@@ -32,86 +32,7 @@ class TransactionList extends StatelessWidget {
                   ? ListView.builder(
                       itemCount: transactions.length,
                       itemBuilder: (ctx, index) {
-                        return Dismissible(
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              child: const Icon(
-                                Icons.attach_money,
-                                color: Colors.white,
-                              ),
-                            ),
-                            title: Text(
-                              transactions[index].title,
-                              style: Theme.of(context).textTheme.headline3.copyWith(
-                                  // copyWith() overrides the existing themeData of BuildContext
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              DateFormat.yMMMd().format(transactions[index].date),
-                              style: const TextStyle(color: Color(0xFF9a9a9a)),
-                            ),
-                            trailing: Container(
-                              width: 120,
-                              child: Text(
-                                '\$${transactions[index].amount.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                          background: Container(
-                            color: Colors.redAccent,
-                            child: const Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: const Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                          secondaryBackground: Container(
-                            color: Colors.redAccent,
-                            child: const Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: const Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                          key: ValueKey(transactions[index].id),
-                          onDismissed: (direction) {
-                            deleteTransaction(transactions[index].id);
-
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                'Transaction Deleted.',
-                                style: TextStyle(fontSize: 19),
-                                textAlign: TextAlign.center,
-                              ),
-                              backgroundColor: Colors.redAccent,
-                              duration: Duration(milliseconds: 2300),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                            ));
-                          },
-                        );
+                        return TransactionItem(transaction: transactions[index], deleteTransaction: deleteTransaction);
                       },
                     )
                   : Padding(
